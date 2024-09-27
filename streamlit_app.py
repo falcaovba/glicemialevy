@@ -19,6 +19,9 @@ df['data_coluna'] = pd.to_datetime(df['Data'], dayfirst=True)
 # Criando uma nova coluna "mes_ano" com o nome do mês e o ano
 df['mes_ano'] = df['data_coluna'].dt.strftime('%B/%Y')
 
+df['meta_glicemia'] = 120
+
+
 maior_do_mes = df['Glicemia'].max()
 menor_do_mes = df['Glicemia'].loc[df['Glicemia'] > 0].min()
 
@@ -59,25 +62,23 @@ with col3:
         # Exibindo o valor da glicemia e a data no st.metric
         st.metric(label=f"💉 Glicemia em {data_glicemia}", value=valor_glicemia, delta="100", delta_color="inverse")
 
-
-
 st.subheader("🔬 Glicemia de {}".format(option), divider="rainbow")
-# Criar o gráfico usando Altair
-chart = alt.Chart(df).mark_area().encode(
+
+# Criar o gráfico de barras usando Altair
+chart = alt.Chart(df).mark_bar().encode(
     x=alt.X('Data:O', title='Data'),  # 'O' para ordinal (string)
     y=alt.Y('Glicemia:Q', title='Glicemia'),
     tooltip=['Data:O', 'Glicemia:Q']
-).properties(width=600, height=400).interactive() #, title='Glicemia').interactive()
+).properties(width=600, height=400).interactive()
 
-# Adiciona rótulos aos pontos no gráfico
-text = chart.mark_text(align='center', baseline='middle', dy=-5,
-                       color='black', size=15
+# Adiciona rótulos aos pontos no gráfico de barras
+text = chart.mark_text(align='center', baseline="bottom", dy=-5,
+                       color='black', size=12
                       ).encode(text='Glicemia:Q', x='Data:O', y='Glicemia:Q')
 
 # Exibe o gráfico no Streamlit
 st.altair_chart(chart + text, use_container_width=True)
 
-
 # Exibir o DataFrame no Streamlit
-#st.dataframe(df)
+#st.dataframe(df_meta)
 

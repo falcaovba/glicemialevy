@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-from datetime import datetime
 
 st.set_page_config(page_title='Acompanhamento de Glicemia - Levy Batista', page_icon='🔬',layout="wide",initial_sidebar_state="collapsed")
 
